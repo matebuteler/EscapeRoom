@@ -1,3 +1,24 @@
+"""
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣤⣶⣦⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⡿⠛⠉⠙⠛⠛⠛⠛⠻⢿⣿⣷⣤⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⠋⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⠈⢻⣿⣿⡄⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣸⣿⡏⠀⠀⠀⣠⣶⣾⣿⣿⣿⠿⠿⠿⢿⣿⣿⣿⣄⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣿⠁⠀⠀⢰⣿⣿⣯⠁⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣷⡄⠀
+⠀⠀⣀⣤⣴⣶⣶⣿⡟⠀⠀⠀⢸⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣷⠀
+⠀⢰⣿⡟⠋⠉⣹⣿⡇⠀⠀⠀⠘⣿⣿⣿⣿⣷⣦⣤⣤⣤⣶⣶⣶⣶⣿⣿⣿⠀
+⠀⢸⣿⡇⠀⠀⣿⣿⡇⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀
+⠀⣸⣿⡇⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠉⠻⠿⣿⣿⣿⣿⡿⠿⠿⠛⢻⣿⡇⠀⠀
+⠀⣿⣿⠁⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣧⠀⠀
+⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
+⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
+⠀⢿⣿⡆⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀
+⠀⠸⣿⣧⡀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠃⠀⠀
+⠀⠀⠛⢿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⣰⣿⣿⣷⣶⣶⣶⣶⠶⠀⢠⣿⣿⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⣽⣿⡏⠁⠀⠀⢸⣿⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⢹⣿⡆⠀⠀⠀⣸⣿⠇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢿⣿⣦⣄⣀⣠⣴⣿⣿⠁⠀⠈⠻⣿⣿⣿⣿⡿⠏⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+"""
 from ctypes import alignment
 import pygame, pygame_menu
 import tkinter as tk
@@ -44,60 +65,98 @@ def generate_popup(pista, titulo, correcto, unlocked):
     root.mainloop()
 
 class location:
-    def __init__(self, lx, rx, ty, by):
-        self.lx = lx
-        self.rx = rx
-        self.ty = ty
-        self.by = by
-vials = location(270,401,383,551)
-microscope = location(432,495,250,409)
-lab_journal = location(435,529,425,465)
-tablet = location(92,246,453,531)
-pictures1 = location(385,440,109,193)
-pictures2 = location(330,396,202,290)
-papers = location(307,371,102,167)
-lamp = location(16,154,210,446)
+    def __init__(self, x1, y1, x2, y2):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+#aaaaaaaaa = location(x1 ,y1 ,x2 ,y2 )
+cajafuerte = location(4,247,63,299)
+afiche1 = location(284,269,313,285)
+afiche2 = location(293,289,322,323)
+afiche3 = location(347,293,377,311)
+afiche4 = location(368,270,389,296)
+impresora = location(58,343,158,426)
+monitor = location(357,314,433,345)
+rendija = location(153,180,193,228)
+cajonsus = location(486,360,516,375)
+cajblanca = location(161,331,198,372)
+cuadro1 = location(520,240,537,290)
+cuadro2 = location(539,238,554,289)
+cuadro3 = location(562,230,584,288)
+radio = location(477,290,506,310)
+
+# Ciudad
+def begin_city(teamname):
+    pygame.init()
+    pygame.display.set_caption('Escapa del Museo - Centro Cívico')
+    gameDisplay = pygame.display.set_mode((800,600))
+    gameDisplay.blit(pygame.image.load("BgRoom1.jpg"),(0,0))
+    pygame.display.update()
+    clock = pygame.time.Clock()
+    endcity = False
+    gameDisplay.blit(pygame.image.load("pablo.png"),(100,300))
+    while not endcity:
+        clock.tick(1)
+        pygame.time.delay(1500)
+        pygame.display.update()
+        pygame.time.delay(5000)
+        gameDisplay.blit(pygame.image.load("BgRoom1.jpg"),(0,0))
+        pygame.display.update()
+
+    pygame.display.update()
 
 # Museo, previo al escape room
-def begin_room3(equipo):
+def begin_room2(equipo):
+    gameDisplay = pygame.display.set_mode((800,600))
     pygame.display.set_caption("Museo del Rompecabezas")
-    gamedisplay.blit(pygame.image.load("Hab3"))
+    gameDisplay.blit(pygame.image.load("BgRoom2"))
 
 
-def begin_room4(team):
-    pygame.display.set_caption('Escape Room') 
+def count(t):
+    global timestopped
+    while t:
+        mins, secs = divmod(t, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        print(timer, end="\r")
+        time.sleep(1)
+        t -= 1
+    timestopped = True
+
+def begin_room3(team):
+    pygame.display.set_caption('Escapa del Museo') 
     global equipo
     equipo = team
+    timeleft = 1800
     pygame.init()
     gameDisplay = pygame.display.set_mode((800,600))
-    pygame.display.set_caption('Escape Room')
     clock = pygame.time.Clock()
-    gameDisplay.blit(pygame.image.load("ciudad.png"),(0,0))
-
+    gameDisplay.blit(pygame.image.load("BgRoom3.png"),(0,0))
+    count(1800) # 1800 s = 30min
     ending = False
-    while not ending:
-
+    while not timestopped:
+        pygame.display.set_caption(f'{timeleft}  PARA ESCAPAR')
         mx, my = pygame.mouse.get_pos()
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 ending = True
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if vials.lx <= mx <= vials.rx and vials.ty <= my <= vials.by:
-                    generate_popup("Vials",
+                if cajafuerte.x1 <= mx <= cajafuerte.x2 and cajafuerte.y1 <= my <= cajafuerte.y2:
+                    generate_popup("cajafuerte",
                                    "\nWhat is the cure and who was the murderer??\nThe CEO of ____ murdered Dr. Anthony\nfor the ____ cure! (name, cure)\n",
                                    "Zoom, mRNA",
                                    "\nCongrats, " + team + "!\nYou Solved the Murder and Found the Cure!\nThe World Thanks You!")
                     break
-                if microscope.lx <= mx <= microscope.rx and microscope.ty <= my <= microscope.by:
-                    generate_popup("Microscope",
+                if afiche1.x1 <= mx <= afiche1.x2 and afiche1.y1 <= my <= afiche1.y2:
+                    generate_popup("afiche1",
                                    "\nWhat do St. Patrick's Day, coronavirus lockdowns,\nand daylight savings time have in common?\n",
                                    "March",
-                                   "\nThere are some interesting slides under the microscope...\nThis one shows the key ingredient to the cure is mRNA!")
+                                   "\nThere are some interesting slides under the afiche1...\nThis one shows the key ingredient to the cure is mRNA!")
                     break
-                if lamp.lx <= mx <= lamp.rx and lamp.ty <= my <= lamp.by:
+                if impresora.x1 <= mx <= impresora.x2 and impresora.y1 <= my <= impresora.y2:
                     generate_popup("Journal",
-                                   "Entry: Mrxuqdo, Lw'v rqh gdb vlqfh wkh glvfryhub.\nL kdg d vwudqjh ylvlw wrgdb iurp wkh FHR ri Crrp.\nWkhb vhhphg yhub dqjub dqg wkuhdwhqhg ph.\nWhich of your tools decodes messages?\n",
+                                   "Entry: Mx2uqdo, Lw'v rqh gdb vlqfh wkh glvfryhub.\nL kdg d vwudqjh ylvlw wrgdb iurp wkh FHR ri Crrp.\nWkhb vhhphg yhub dqjub dqg wkuhdwhqhg ph.\nWhich of your tools decodes messages?\n",
                                    "CIPHER",
                                    "\nEntry: Journal, It's one day since the discovery.\nI had a strange visit today from the CEO of Zoom.\nThey seemed very angry and threatened me.\n")
                     break
@@ -116,18 +175,10 @@ journal = location(321,482,133,167)
 trash = location(204,294,236,316)
 
 
-# main loop
-def begin_city(teamname):
-    pygame.init()
-    pygame.display.set_caption('Centro Civico')
-    gameDisplay = pygame.display.set_mode((800,600))
-    gameDisplay.blit(pygame.image.load("ciudadtx1.png"),(0,0))
-#    sleep(5)
-#    gameDisplay.blit(pygame.image.load("texto1.png"),(100,300))
 
 #    gameDisplay.blit(pygame.image.load("textopablo.png")),(600,400)
 
-
+"""""
 def begin_room1(teamname):
     pygame.display.set_caption('Escape Room')
     global equipo
@@ -147,7 +198,7 @@ def begin_room1(teamname):
             if event.type == pygame.QUIT:
                 ending = True
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if piezasus.lx <= mx <= piezasus.rx and piezasus.ty <= my <= piezasus.by:
+                if piezasus.x1 <= mx <= piezasus.x2 and piezasus.y1 <= my <= piezasus.y2:
                     generate_popup("Research Lab Access",
                                    "\nIdentification Required.\n(LAST_NAME.ID_NUMBER)\n",
                                    "ANTHONY.275403",
@@ -156,43 +207,43 @@ def begin_room1(teamname):
                     if next_room:
                         begin_room2(equipo)
                     break
-                if tomacorrsus.lx <= mx <= tomacorrsus.rx and tomacorrsus.ty <= my <= tomacorrsus.by:
+                if tomacorrsus.x1 <= mx <= tomacorrsus.x2 and tomacorrsus.y1 <= my <= tomacorrsus.y2:
                     generate_popup("Body",
-                                   "\nResearcher who found coronavirus cure was murdered!\nFind the murderer and the cure before its too late.\nType 'help' for more info:\n",
+                                   "\nResearcher who found coronavirus cure was murdered!\nFind the murderer and the cure before its too late.\ny1pe 'help' for more info:\n",
                                    "help",
                                    "\nClick around the room to investigate clues.\nSolve puzzles and take notes along the way.\nHave fun!")
                     break
-                if cuadro.lx <= mx <= cuadro.rx and cuadro.ty <= my <= cuadro.by:
+                if cuadro.x1 <= mx <= cuadro.x2 and cuadro.y1 <= my <= cuadro.y2:
                     generate_popup("Lab Coat",
                                    "\nIn the pockets you find:\nPAPERCLIP, GUM WRAPPER, PEN, ID CARD,\nNOTE to revise journal on desk\n",
                                    "ID Card",
                                    "\nHead Scientist at *smudge*\nName: S Anthony\nID NUM: *smudge*")
                     break
-                if biblioteca.lx <= mx <= biblioteca.rx and biblioteca.ty <= my <= biblioteca.by:
+                if biblioteca.x1 <= mx <= biblioteca.x2 and biblioteca.y1 <= my <= biblioteca.y2:
                     generate_popup("Phone",
                                    "\nThe cell phone won't turn on.\nIt seems to be missing something...\n",
                                    "PHONE BATTERY",
                                    "\nI_: _ 7 5 _ 0 3\t_ f_u_d _h_ c_r_.\n_u_o_s _p_e_d _a_t _n_ t_i_ m_y _u_t _o_e _o_p_n_e_.\n_ j_s_ w_n_ t_ s_v_ l_v_s_ b_t _ f_a_ m_n_ i_ i_ d_n_e_.\n_t_y _a_e _n_ w_a_ a _a_k_ j_s_ i_ c_s_.")
                     break
-                if toolbox.lx <= mx <= toolbox.rx and toolbox.ty <= my <= toolbox.by:
+                if toolbox.x1 <= mx <= toolbox.x2 and toolbox.y1 <= my <= toolbox.y2:
                     generate_popup("Toolbox",
                                    "\nThe toolbox is locked with a four-digit lock.\nTry a code:\n",
                                    "0529",
                                    "\nInside:\nCIPHER\nPHONE BATTERY\nMAGNIFYING GLASS")
                     break
-                if wall_clock.lx <= mx <= wall_clock.rx and wall_clock.ty <= my <= wall_clock.by:
+                if wall_clock.x1 <= mx <= wall_clock.x2 and wall_clock.y1 <= my <= wall_clock.y2:
                     generate_popup("Clock",
                                    "\nTurn me on my side and I am everything.\nCut me in half and I am nothing.\nWhat am I?\n",
                                    "eight",
                                    "\nHuh that's strange.\nThe clock is stuck at 05:29")
                     break
-                if journal.lx <= mx <= journal.rx and journal.ty <= my <= journal.by:
+                if journal.x1 <= mx <= journal.x2 and journal.y1 <= my <= journal.y2:
                     generate_popup("Journal",
-                                   "Entry: Mrxuqdo, Lw'v rqh gdb vlqfh wkh glvfryhub.\nL kdg d vwudqjh ylvlw wrgdb iurp wkh FHR ri Crrp.\nWkhb vhhphg yhub dqjub dqg wkuhdwhqhg ph.\n\nIt seems to be encrypted. Done reading?\n",
+                                   "Entry: Mx2uqdo, Lw'v rqh gdb vlqfh wkh glvfryhub.\nL kdg d vwudqjh ylvlw wrgdb iurp wkh FHR ri Crrp.\nWkhb vhhphg yhub dqjub dqg wkuhdwhqhg ph.\n\nIt seems to be encrypted. Done reading?\n",
                                    "yes",
                                    "\nMaybe the cipher to this message is in another room...\nshift 3")
                     break
-                if trash.lx <= mx <= trash.rx and trash.ty <= my <= trash.by:
+                if trash.x1 <= mx <= trash.x2 and trash.y1 <= my <= trash.y2:
                     generate_popup("Trash",
                                    "\nWhat can you catch, but never throw?\nA  _ _ _ _\n",
                                    "cold",
@@ -203,50 +254,11 @@ def begin_room1(teamname):
 
     pygame.quit()
     quit()
-
+"""
 
 
 chair = location(388, 500, 518, 572)
 door = location(600,700,120,460)
-
-# main loop
-def start_tutorial(teamname):
-    pygame.init()
-    gameDisplay = pygame.display.set_mode((800,600))
-    pygame.display.set_caption('Escape Room')
-    clock = pygame.time.Clock()
-    gameDisplay.blit(pygame.image.load("library.png"),(0,0))
-
-    ending = False
-    while not ending:
-
-        mx, my = pygame.mouse.get_pos()
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                ending = True
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if chair.lx <= mx <= chair.rx and chair.ty <= my <= chair.by:
-                    generate_popup("Chair",
-                                   "\nThere was a clue under the seat!\n\nThe more of this there is, the less you see.\nWhat is it?\n",
-                                   "darkness",
-                                   "\nOpen the door by saying OPEN")
-                    pygame.time.wait(500)
-                    break
-                if door.lx <= mx <= door.rx and door.ty <= my <= door.by:
-                    generate_popup("Door",
-                                   "\nWhat's the password?\n",
-                                   "OPEN",
-                                   "\nFelicidades, " + teamname + "!\nGanaste!")
-                    break
-            #print(event)
-        pygame.display.update()
-
-    pygame.quit()
-    quit()
-
-
-
 
 pygame.init()
 surface = pygame.display.set_mode((1000,1000))
@@ -259,7 +271,7 @@ def equipo(name):
 
 def start_game():
         print('Begin Main Game')
-        begin_city(teamname) # from City
+        begin_city(teamname) # from City1
 #        begin_room1(teamname) # from Room1
 
 menu_theme = pygame_menu.themes.THEME_DARK.copy()
