@@ -91,7 +91,7 @@ def begin_city(teamname):
     pygame.init()
     pygame.display.set_caption('Escapa del Museo - Centro Cívico')
     gameDisplay = pygame.display.set_mode((800,600))
-    gameDisplay.blit(pygame.image.load("BgRoom1.jpg"),(0,0))
+    gameDisplay.blit(pygame.image.load("assets/bg/BgRoom1.jpg"),(0,0))
     pygame.display.update()
     clock = pygame.time.Clock()
     endcity = False
@@ -101,7 +101,7 @@ def begin_city(teamname):
         pygame.time.delay(1500)
         pygame.display.update()
         pygame.time.delay(5000)
-        gameDisplay.blit(pygame.image.load("BgRoom1.jpg"),(0,0))
+        gameDisplay.blit(pygame.image.load("assets/bg/BgRoom1.jpg"),(0,0))
         pygame.display.update()
 
     pygame.display.update()
@@ -110,7 +110,7 @@ def begin_city(teamname):
 def begin_room2(equipo):
     gameDisplay = pygame.display.set_mode((800,600))
     pygame.display.set_caption("Museo del Rompecabezas")
-    gameDisplay.blit(pygame.image.load("BgRoom2"))
+    gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2.png"))
 
 
 def count(t):
@@ -131,7 +131,7 @@ def begin_room3(team):
     pygame.init()
     gameDisplay = pygame.display.set_mode((800,600))
     clock = pygame.time.Clock()
-    gameDisplay.blit(pygame.image.load("BgRoom3.png"),(0,0))
+    gameDisplay.blit(pygame.image.load("assets/bg/BgRoom3.png"),(0,0))
     count(1800) # 1800 s = 30min
     ending = False
     while not timestopped:
@@ -276,7 +276,7 @@ def start_game():
 
 menu_theme = pygame_menu.themes.THEME_DARK.copy()
 menu_theme.background_color = pygame_menu.baseimage.BaseImage(
-    image_path=f"/home/mateo/Downloads/EscapeRoom-main/BgCarga.png",
+    image_path=f"/home/mateo/Downloads/EscapeRoom-main/assets/bg/BgCarga.png",
     drawing_mode=pygame_menu.baseimage.IMAGE_MODE_CENTER
 )
 
