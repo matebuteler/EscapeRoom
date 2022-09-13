@@ -22,11 +22,37 @@
 from ctypes import alignment
 import pygame, pygame_menu
 import tkinter as tk
+#import threading # just for debug purposes, not a multi-thread game (not there yet XD)
 import time
 
 equipo = 'Jorge Vidal'
 next_room = False
-
+    
+def generate_popupyesno(titulo, contenido):
+    root = tk.Tk()
+    frame1 = tk.Frame(root)
+    frame2 = tk.Frame(root)
+    root.title(titulo)
+    label = tk.Label(frame1,text=contenido,justify=tk.LEFT)
+    label.pack(side=tk.LEFT)
+    def yes():
+        global anspopup
+        root.destroy()
+        anspopup = True
+    def no():
+        global anspopup
+        root.destroy()
+        anspopup = False
+    B1 = tk.Button(frame2,text="Sí",command=yes)
+    B1.pack()
+    B2 = tk.Button(frame2,text="No",command=no)
+    B2.pack()
+    frame1.pack(padx=1,pady=1)
+    frame2.pack(padx=10,pady=10)
+    root.mainloop()
+    time.sleep(0.5)
+    return anspopup
+    
 def generate_popup(pista, titulo, correcto, unlocked):    
     global equipo
     # popup setup
@@ -71,6 +97,13 @@ class location:
         self.x2 = x2
         self.y2 = y2
 #aaaaaaaaa = location(x1 ,y1 ,x2 ,y2 )
+#Locations (Room 1)
+tcsus = location(311, 268, 359, 325)
+piezasus = location(377, 517, 406, 546)
+cadaver = location(376, 408, 503, 516)
+
+
+#Locations (Room 2)
 cajafuerte = location(4,247,63,299)
 afiche1 = location(284,269,313,285)
 afiche2 = location(293,289,322,323)
@@ -95,13 +128,14 @@ def begin_city(teamname):
     pygame.display.update()
     clock = pygame.time.Clock()
     endcity = False
-    gameDisplay.blit(pygame.image.load("pablo.png"),(100,300))
+    gameDisplay.blit(pygame.image.load("assets/pablo.png"),(100,300))
+    gameDisplay.blit(pygame.image.load("assets/txpablo.png"),(100,350))
     while not endcity:
         clock.tick(1)
         pygame.time.delay(1500)
         pygame.display.update()
         pygame.time.delay(5000)
-        gameDisplay.blit(pygame.image.load("assets/bg/BgRoom1.jpg"),(0,0))
+        begin_room2(teamname)
         pygame.display.update()
 
     pygame.display.update()
@@ -110,7 +144,32 @@ def begin_city(teamname):
 def begin_room2(equipo):
     gameDisplay = pygame.display.set_mode((800,600))
     pygame.display.set_caption("Museo del Rompecabezas")
-    gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2.png"))
+    gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2sf.png"),(0,0))
+    hasTouchedCadaver = False
+    while not next_room:
+        mx, my = pygame.mouse.get_pos()
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:   #ensure the user can quit the game at all times
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:    #whenever the user clicks the mouse
+                if cadaver.x1 <= mx <= cadaver.x2 and cadaver.y1 <= my <= cadaver.y2 and hasTouchedCadaver == False:
+                    if (generate_popupyesno("Cadaver", "El detective Pablo no te permitió tocar nada.\n Sin embargo, ese cadáver parece esconder algo... \n Acercarse?" )) == True:
+                        gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2.png"),(0,0))
+                        hasTouchedCadaver = True
+                
+                if piezasus.x1 <= mx <= piezasus.x2 and piezasus.y1 <= my <= piezasus.y2:
+                    gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2sf.png"),(0,0)) #agarra la pieza
+                
+                if tcsus.x1 <= mx <= tcsus.x2 and tcsus.y1 <= my <= tcsus.y2:
+                    if (generate_popupyesno("Tomacorriente", "El tomacorriente parece estar dañado, pero no puedes ver bien.\n Acercarse?" )) == True:
+                        gameDisplay.blit(pygame.image.load("assets/bg/TCsus.png"),(0,0)) #Detalle del tomacorriente sospechoso
+                        time.sleep(2.5)
+                        if generate_popupyesno("Tomacorriente extraño","La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?") == True:
+                            if generate_popupyesno("¡Algo extraño sucede!","¡La biblioteca era una puerta secreta! \n Se abrió al encajar la pieza que estaba en el cadáver con el tomacorriente. \n ¡Seguramente tenga que ver con el caso! ¿Entrar?") == True:
+                                begin_room3(equipo) #Entered the true escape room
+
 
 
 def count(t):
@@ -132,7 +191,7 @@ def begin_room3(team):
     gameDisplay = pygame.display.set_mode((800,600))
     clock = pygame.time.Clock()
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom3.png"),(0,0))
-    count(1800) # 1800 s = 30min
+    _thread(target=count, args=(1800)).start()
     ending = False
     while not timestopped:
         pygame.display.set_caption(f'{timeleft}  PARA ESCAPAR')
@@ -276,7 +335,7 @@ def start_game():
 
 menu_theme = pygame_menu.themes.THEME_DARK.copy()
 menu_theme.background_color = pygame_menu.baseimage.BaseImage(
-    image_path=f"/home/mateo/Downloads/EscapeRoom-main/assets/bg/BgCarga.png",
+    image_path="assets/bg/BgCarga.png",
     drawing_mode=pygame_menu.baseimage.IMAGE_MODE_CENTER
 )
 
