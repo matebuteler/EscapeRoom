@@ -137,7 +137,6 @@ radio = location(477,290,506,310)
 def begin_city():
     pygame.init()
     pygame.display.set_caption('Escapa del Museo - Centro Cívico')
-    gameDisplay = pygame.display.set_mode(size=(800,600))
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom1.jpg"),(0,0))
     pygame.display.update()
     clock = pygame.time.Clock()
@@ -211,7 +210,7 @@ def begin_room3():
                 ending = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cajafuerte.x1 <= mx <= cajafuerte.x2 and cajafuerte.y1 <= my <= cajafuerte.y2:
-                    if hasCrackedPC == True:
+                    if hasCrackedPC == True:  #skipcq PYL-W0621
                         if generate_popupyesno("Caja fuerte", "La caja fuerte está abierta. \n ¿Quieres ver lo que hay dentro?"):
                             generate_text("Caja fuerte", "¡Encontraste un texto extraño! \n ¡Guardala en tu inventario!")
                             
