@@ -182,7 +182,7 @@ def begin_room2():
                 if (generate_popupyesno("Tomacorriente", "El tomacorriente parece estar dañado, pero no puedes ver bien.\n Acercarse?" )):
                     gameDisplay.blit(pygame.image.load("assets/bg/TCsus.png"),(0,0)) #Detalle del tomacorriente sospechoso
                     time.sleep(2.5)
-                    if generate_popupyesno("Tomacorriente extraño","La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?"):
+                    if tienePiezaSus and generate_popupyesno("Tomacorriente extraño","La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?"):
                         if generate_popupyesno("¡Algo extraño sucede!","¡La biblioteca era una puerta secreta! \n Se abrió al encajar la pieza que estaba en el cadáver con el tomacorriente. \n ¡Seguramente tenga que ver con el caso! ¿Entrar?") == True:
                             begin_room3() #Entered the true escape room
 
