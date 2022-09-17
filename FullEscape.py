@@ -25,10 +25,9 @@ import tkinter as tk
 import threading
 import time
 from playsound import playsound
-
-equipo = 'Jorge Vidal'
 next_room = False
-    
+
+
 def generate_text(contenido,titulo = "Mensaje",size = ("400x150")):
     root = tk.Tk()
     frame1 = tk.Frame(root)
@@ -42,6 +41,7 @@ def generate_text(contenido,titulo = "Mensaje",size = ("400x150")):
     frame1.pack(padx=1,pady=1)
     frame2.pack(padx=10,pady=10)
     root.mainloop()
+
 
 def generate_popupyesno(titulo, contenido):
     root = tk.Tk()
@@ -63,7 +63,8 @@ def generate_popupyesno(titulo, contenido):
     root.mainloop()
 #    time.sleep(0.5)
     return anspopup
-    
+
+
 def generate_popup(pista, titulo, correcto, unlocked):    
     global equipo
     # popup setup
@@ -102,6 +103,7 @@ def generate_popup(pista, titulo, correcto, unlocked):
     
     root.mainloop()
 
+
 class location:
     def __init__(self, x1, y1, x2, y2):
         self.x1 = x1
@@ -131,6 +133,7 @@ cuadro2 = location(539,238,554,289)
 cuadro3 = location(562,230,584,288)
 radio = location(477,290,506,310)
 
+
 # Ciudad
 def begin_city(teamname):
     pygame.init()
@@ -151,6 +154,7 @@ def begin_city(teamname):
         pygame.display.update()
 
     pygame.display.update()
+
 
 # Museo, previo al escape room
 def begin_room2(equipo):
@@ -183,6 +187,7 @@ def begin_room2(equipo):
                     if generate_popupyesno("Tomacorriente extraño","La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?"):
                         if generate_popupyesno("¡Algo extraño sucede!","¡La biblioteca era una puerta secreta! \n Se abrió al encajar la pieza que estaba en el cadáver con el tomacorriente. \n ¡Seguramente tenga que ver con el caso! ¿Entrar?") == True:
                             begin_room3(equipo) #Entered the true escape room
+
 
 def begin_room3(team):
     pygame.display.set_caption('Escapa del Museo') 
@@ -244,6 +249,7 @@ def begin_room3(team):
     pygame.quit()
     quit()
 
+
 def open_computer():
     listbox = []
     global hasCrackedPC
@@ -284,6 +290,7 @@ pygame.init()
 surface = pygame.display.set_mode((800,600))
 
 teamname = 'Jorge Vidal'
+
 
 def equipo(name):
     global teamname
