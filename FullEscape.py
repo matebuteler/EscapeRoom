@@ -65,8 +65,7 @@ def generate_popupyesno(titulo, contenido):
     return anspopup
 
 
-def generate_popup(pista, titulo, correcto, unlocked):    
-    global equipo
+def generate_popup(pista, titulo, correcto, unlocked):
     # popup setup
     root = tk.Tk()
     root.title(pista)
@@ -135,7 +134,7 @@ radio = location(477,290,506,310)
 
 
 # Ciudad
-def begin_city(teamname):
+def begin_city():
     pygame.init()
     pygame.display.set_caption('Escapa del Museo - Centro Cívico')
     gameDisplay = pygame.display.set_mode(size=(800,600))
@@ -150,15 +149,14 @@ def begin_city(teamname):
         pygame.time.delay(1500)
         pygame.display.update()
         pygame.time.delay(5000)
-        begin_room2(teamname)
+        begin_room2()
         pygame.display.update()
 
     pygame.display.update()
 
 
 # Museo, previo al escape room
-def begin_room2(equipo):
-    gameDisplay = pygame.display.set_mode((800,600))
+def begin_room2():
     pygame.display.set_caption("Museo del Rompecabezas")
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2.png"),(0,0))
     hasTouchedCadaver = False
@@ -175,7 +173,7 @@ def begin_room2(equipo):
                         hasTouchedCadaver = True
                         time.sleep(0.5)
                         if generate_popupyesno("Pieza sospechosa", "Cayó una pieza de rompecabezas al suelo! \n Tiene un sólo diente; algo no cuadra... \n ¿Guardarla?"):
-                            piezasus = True
+                            tienePiezaSus = True
                             generate_text("Pieza sospechosa", "La pieza se guardó en tu inventario.")
                             time.sleep(0.5)
 
@@ -186,17 +184,14 @@ def begin_room2(equipo):
                     time.sleep(2.5)
                     if generate_popupyesno("Tomacorriente extraño","La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?"):
                         if generate_popupyesno("¡Algo extraño sucede!","¡La biblioteca era una puerta secreta! \n Se abrió al encajar la pieza que estaba en el cadáver con el tomacorriente. \n ¡Seguramente tenga que ver con el caso! ¿Entrar?") == True:
-                            begin_room3(equipo) #Entered the true escape room
+                            begin_room3() #Entered the true escape room
 
 
-def begin_room3(team):
+def begin_room3():
     pygame.display.set_caption('Escapa del Museo') 
-    global equipo
-    equipo = team
     timeleft = 1800
     timestopped = False
     pygame.init()
-    gameDisplay = pygame.display.set_mode((800,600))
     clock = pygame.time.Clock()
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom3.png"),(0,0))
 #    threading.Thread(target=count, args=(1800)).start()
@@ -289,18 +284,18 @@ def open_computer():
 pygame.init()
 surface = pygame.display.set_mode((800,600))
 
-teamname = 'Jorge Vidal'
+equipo = 'Jorge Vidal'
 
 
-def equipo(name):
-    global teamname
-    teamname = name
+def teamname(n):
+    global equipo
+    equipo = n
 
 def start_game():
     generate_text("!Bienvenido al Escape Room!\n Controles: Para avanzar en la historia/diálogos, presiona espacio.\n Busca cosas sospechosas y clickealas para interactuar con ellas. \n ¡Buena Suerte!")
     print('Begin Main Game')
-#    begin_city(teamname) # from City1
-    begin_room3(teamname) # from Room1
+#    begin_city() # from City1
+    begin_room3() # from Room1
     
 
 gameDisplay = pygame.display.set_mode(size=(800,600))
@@ -314,7 +309,7 @@ menu_theme.background_color = pygame_menu.baseimage.BaseImage(
 menu = pygame_menu.Menu('Escape Room ', 800, 600,
                        theme=menu_theme)
 
-menu.add.text_input('Nombre de equipo : ', default=' Jorge Vidal', onchange=equipo)
+menu.add.text_input('Nombre de equipo : ', default='Jorge Vidal', onchange=teamname)
 menu.add.button('Jugar', start_game)
 menu.add.button('Salir', pygame_menu.events.EXIT)
 
