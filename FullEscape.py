@@ -176,8 +176,6 @@ def begin_room2():
                             generate_text("Pieza sospechosa", "La pieza se guardó en tu inventario.")
                             time.sleep(0.5)
 
-                
-                
                 if (generate_popupyesno("Tomacorriente", "El tomacorriente parece estar dañado, pero no puedes ver bien.\n Acercarse?" )):
                     gameDisplay.blit(pygame.image.load("assets/bg/TCsus.png"),(0,0)) #Detalle del tomacorriente sospechoso
                     time.sleep(2.5)
@@ -259,7 +257,7 @@ def open_computer():
         listbox.append(track)
         if len(listbox) == 3 and listbox[0] == "assets/sound/3.mp3" and listbox[1] == "assets/sound/0.mp3" and listbox[2] == "assets/sound/1.mp3" and listbox[3] == "assets/sound/1.mp3":
             generate_text("¡Encontraste la contraseña! \n ¡Ahora puedes abrir la caja fuerte!")
-            hasCrackedPC = True
+            hasCrackedPC = True #skipcq PYL-W0621
             root.destroy()
     root = tk.Tk()
     frame1 = tk.Frame(root)
