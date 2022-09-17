@@ -13,7 +13,7 @@
             "justMyCode": true,
             "env": {
                 "VAR": "${workspaceFolder}",
-                "PYTHONVAR": "${workspaceFolder}"
+                "PATH": "${workspaceFolder}"
             }
         }
     ]
