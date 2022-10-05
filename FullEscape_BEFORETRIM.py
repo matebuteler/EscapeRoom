@@ -22,7 +22,6 @@
 from ctypes import alignment
 import pygame, pygame_menu
 import tkinter as tk
-from tkinter import messagebox as mb
 import threading
 import time
 from playsound import playsound
@@ -44,8 +43,7 @@ def generate_text(contenido,titulo = "Mensaje",size = ("400x150")):
     root.mainloop()
 
 
-"""
-def generateyesno(titulo, contenido):
+def generate_popupyesno(titulo, contenido):
     root = tk.Tk()
     anspopup = None
     frame1 = tk.Frame(root)
@@ -56,22 +54,21 @@ def generateyesno(titulo, contenido):
     def ret(x):
         anspopup = x
         root.destroy()
-    B1 = tk.Button(frame2,text="Sí",command=lambda: ret(True))
+    B1 = tk.Button(frame2,text="Sí",command=lambda:ret(True))
     B1.pack()
-    B2 = tk.Button(frame2,text="No",command=lambda: ret(False))
+    B2 = tk.Button(frame2,text="No",command=lambda:ret(False))
     B2.pack()
     frame1.pack(padx=1,pady=1)
     frame2.pack(padx=10,pady=10)
-    root.update()
     root.mainloop()
 #    time.sleep(0.5)
     return anspopup
-"""
 
-def generate_popup(titulo, pista, correcto, unlocked, size = ("400x150")):
+
+def generate_popup(pista, titulo, correcto, unlocked):
     # popup setup
     root = tk.Tk()
-    root.title(titulo)
+    root.title(pista)
     root.geometry("400x350")
     root.eval('tk::PlaceWindow . center')
     ans_var = tk.StringVar()
@@ -86,17 +83,14 @@ def generate_popup(titulo, pista, correcto, unlocked, size = ("400x150")):
             display = tk.Label(root, text = unlocked)
             display.grid(row=5,column=1)
             if unlocked == "COMPUTADORA DESBLOQUEADA. INICIANDO SISTEMA...":
-                root.update()
                 time.sleep(1)
-                root.destroy()
                 open_computer()
             root.update()
         else:
             ans_var.set("")
-            display = tk.Label(root, text = "RESPUESTA INCORRECTA")
 
     # popup display
-    message = tk.Label(root, text = pista)
+    message = tk.Label(root, text = titulo)
     ans_entry = tk.Entry(root, textvariable = ans_var, font = ('calibre',10,'normal'))
     sub_btn = tk.Button(root, text = 'Submit', command = submit)
     root.grid_columnconfigure(0, weight=1)
@@ -148,48 +142,51 @@ def begin_city():
     pygame.display.update()
     clock = pygame.time.Clock()
     endcity = False
-    gameDisplay.blit(pygame.image.load("assets/txcity.png"),(5,350))
+    gameDisplay.blit(pygame.image.load("assets/pablo.png"),(100,300))
+    gameDisplay.blit(pygame.image.load("assets/txpablo.png"),(100,350))
     while not endcity:
         clock.tick(1)
-        pygame.display.update()
-        pygame.time.delay(8200)
-        gameDisplay.blit(pygame.image.load("assets/bg/BgRoom1.jpg"),(0,0))
-        gameDisplay.blit(pygame.image.load("assets/pablo.png"),(25,300))
-        gameDisplay.blit(pygame.image.load("assets/txpablo.png"),(25,350))
+        pygame.time.delay(1500)
         pygame.display.update()
         pygame.time.delay(5000)
+        begin_room2()
         pygame.display.update()
         endcity = True
-    begin_room2()
+
 
 # Museo, previo al escape room
 def begin_room2():
-    pygame.init()
     pygame.display.set_caption("Museo del Rompecabezas")
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom2.png"),(0,0))
-    pygame.display.update()
-    time.sleep(1.5)
     hasTouchedCadaver = False
-    mb.askyesno("Cadaver", "El detective Pablo no te permitió tocar nada.\n Sin embargo, hay un cadáver que parece esconder algo... \n Acercarse?" )
-    pygame.display.update()
-    time.sleep(0.5)
-    mb.askyesno("Pieza sospechosa", "Cayó una pieza de rompecabezas al suelo! \n Tiene un sólo diente; algo no cuadra... \n ¿Guardarla?")
-    pygame.display.update()
-    generate_text("La pieza se guardó en tu inventario.", "Pieza sospechosa")
-    pygame.display.update()
-    time.sleep(0.5)
-    mb.askyesno("Tomacorriente", "El tomacorriente parece estar dañado, pero no puedes ver bien.\n Acercarse?" )
-    pygame.display.update()
-    mb.askyesno("Tomacorriente extraño", "La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?")
-    pygame.display.update()
-    mb.askyesno("¡Algo extraño sucede!", "¡La biblioteca era una puerta secreta! \nSe abrió al encajar la pieza que estaba en el cadáver con el tomacorriente. \n ¡Seguramente tenga que ver con el caso! ¿Entrar?")
-    pygame.display.update()
-    begin_room3() # Entered the true escape room
+    for event in pygame.event.get():
+        pygame.display.update()
+        if event.type == pygame.QUIT:   #ensure the user can quit the game at all times
+            pygame.quit()
+            quit()
+        if event.type == pygame.KEYDOWN:    #whenever the user presses a key
+            if generate_popupyesno("Cadaver", "El detective Pablo no te permitió tocar nada.\n Sin embargo, hay un cadáver que parece esconder algo... \n Acercarse?" ):
+                    hasTouchedCadaver = True
+                    time.sleep(0.5)
+                    if generate_popupyesno("Pieza sospechosa", "Cayó una pieza de rompecabezas al suelo! \n Tiene un sólo diente; algo no cuadra... \n ¿Guardarla?"):
+                        tienePiezaSus = True
+                        generate_text("La pieza se guardó en tu inventario.", "Pieza sospechosa")
+                        time.sleep(0.5)
+                    if generate_popupyesno("Tomacorriente", "El tomacorriente parece estar dañado, pero no puedes ver bien.\n Acercarse?" ):
+                        gameDisplay.blit(pygame.image.load("assets/bg/TCsus.png"),(0,0)) #Detalle del tomacorriente sospechoso
+                        time.sleep(2.5)
+                    if generate_popupyesno("Tomacorriente extraño", "La pieza de antes parece encajar... \n ¿Encajar en el tomacorriente?"):
+                        if generate_popupyesno("¡Algo extraño sucede!",
+                                                "¡La biblioteca era una puerta secreta!\ \n Se abrió al encajar la pieza que estaba en el cadáver con el tomacorriente. \n \
+                                            ¡Seguramente tenga que ver con el caso! ¿Entrar?"):
+                            begin_room3() # Entered the true escape room
+                            break # Break out of the for event loop
 
                
 
 
 def begin_room3():
+    pygame.display.set_caption('Escapa del Museo') 
     timeleft = 1800
     timestopped = False
     pygame.init()
@@ -197,9 +194,7 @@ def begin_room3():
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom3.png"),(0,0))
     pygame.display.update()
     ending = False
-    hasCrackedPC = False
     while not timestopped:
-        pygame.display.update()
         time.sleep(1)
         timeleft = timeleft - 1
         if timeleft == 0:
@@ -215,57 +210,51 @@ def begin_room3():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cajafuerte.x1 <= mx <= cajafuerte.x2 and cajafuerte.y1 <= my <= cajafuerte.y2:
                     if hasCrackedPC == True:  #skipcq PYL-W0621
-                        if mb.askyesno("La caja fuerte está abierta. \n ¿Quieres ver lo que hay dentro?", "Caja fuerte"):
-                            generate_text("¡Encontraste un texto extraño! \n ", "Caja fuerte")
-                                                        
+                        if generate_popupyesno("La caja fuerte está abierta. \n ¿Quieres ver lo que hay dentro?", "Caja fuerte"):
+                            generate_text("¡Encontraste un texto extraño! \n ¡Guardala en tu inventario!", "Caja fuerte")
+                            
                     else:    
                         generate_text("La caja fuerte está cerrada. \n No parece haber manera de abrirla...", "Caja Fuerte")
-                    
+                    break
                 if monitor.x1 <= mx <= monitor.x2 and monitor.y1 <= my <= monitor.y2:
                     generate_popup("Computadora",
                                    "\La computadora requiere una contraseña. \n Intenta una:",
                                    "ax027",
                                    "COMPUTADORA DESBLOQUEADA. INICIANDO SISTEMA...")
-                    
+                    break
                 if afiche1.x1 <= mx <= afiche1.x2 and afiche1.y1 <= my <= afiche1.y2:
                     generate_text("El afiche dice: \n ¡El arte es la única forma de comunicación que no se puede censurar! \n - Pablo Picasso", "Afiche 1")
-                    
+                    break
                 if afiche2.x1 <= mx <= afiche2.x2 and afiche2.y1 <= my <= afiche2.y2:
-                    generate_text(" ⏭    K \n ➳    L \n𝀦    M\n𝀓    N\n➙    O\n【    P\n】    Q\n『    R\n』    S\n」    T", "Afiche extraño", "150x250")
-                    
+                    generate_text(" ⏭    K \n ➳    L \n𝀦    M\n𝀓    N\n➙    O\n【    P\n】    Q\n『    R\n』    S\n」    T", "Afiche extraño")
                 if cajonsus.x1 <= mx <= cajonsus.x2 and cajonsus.y1 <= my <= cajonsus.y2:
-                    generate_popup("Cajón","¿Qué cosa es que cuanto más le quitas más grande es?", "agujero", "↑    A\n↤    B\n⇒    C\n🔽    D\n⧬    E\n⧪    F\n⧭    G\n⥷    H\n⧫    I\n⦽    J", "150x250")
-                    
+                    generate_text("Hay un papel en el cajón. Escrito tiene esto:\n」〓 ⇒ ↑ ㉿ ↑ ㉿ 〘 ᑘ ᔜ 〙⧬ ⇒ ⧬ 』", "Cajón")
+                    break
                 if rendija.x1 <= mx <= rendija.x2 and rendija.y1 <= my <= rendija.y2:
-                    if mb.askyesno("Rendija","Hay algo en la rendija, pero no puedes verlo bien.\nPuedes usar tu linterna para verlo mejor.",) == True:
+                    if generate_popupyesno("Rendija","Hay algo en la rendija, pero no puedes verlo bien.\nUsa tu linterna para verlo mejor.",) == True:
                         gameDisplay.blit(pygame.image.load("assets/rendijailuminada.png"),(152,164))
-                        pygame.display.update()
-                    gameDisplay.blit(pygame.image.load("assets/rendijailuminada.png"),(152,164))
-                    pygame.display.update()
-                    
+                    break
                 if radio.x1 <= mx <= radio.x2 and radio.y1 <= my <= radio.y2:
-                    if mb.askyesno("Radio","La radio está apagada.\nLa perilla para seleccionar frecuencia parece estar rota.\n ¿Encender?") == True:
-                        pygame.mixer.music.load("assets/sound/radio.mp3")
+                    if generate_popupyesno("Radio","La radio está apagada.\nLa perilla para seleccionar frecuencia parece estar rota.\n ¿Encender?") == True:
+                        pygame.mixer.music.load("assets/radio.mp3")
                         pygame.mixer.music.play(0)
-                    
+                    break
     pygame.quit()
     quit()
 
 
 def open_computer():
-    global listbox
-    listbox = list()
+    listbox = []
     global hasCrackedPC
     hasCrackedPC = False
     def play(track):
-        global listbox
         if track == "del":
             listbox = []
             return
         pygame.mixer.music.load(track)
         pygame.mixer.music.play(0)
         listbox.append(track)
-        if len(listbox) == 3 and listbox == ["assets/sound/3.mp3","assets/sound/0.mp3", "assets/sound/1.mp3", "assets/sound/2.mp3"]:
+        if len(listbox) == 3 and listbox[0] == "assets/sound/3.mp3" and listbox[1] == "assets/sound/0.mp3" and listbox[2] == "assets/sound/1.mp3" and listbox[3] == "assets/sound/1.mp3":
             generate_text("¡Encontraste la contraseña! \n ¡Ahora puedes abrir la caja fuerte!")
             hasCrackedPC = True #skipcq PYL-W0621
             root.destroy()
@@ -276,16 +265,15 @@ def open_computer():
     root.geometry("350x350")
     label = tk.Label(frame1,text="BIENVENIDO AL SISTEMA",justify=tk.CENTER)
     label.pack(side=tk.LEFT)
-    B1 = tk.Button(frame2,text="⬤",command=lambda: play("assets/sound/0.mp3"))
+    B1 = tk.Button(frame2,text="⬤",command=root.destroy)
     B1.pack()
-    B2 = tk.Button(frame2,text="⭕",command=lambda: play("assets/sound/1.mp3"))
+    B2 = tk.Button(frame2,text="⭕",command=root.destroy)
     B2.pack()
-    B3 = tk.Button(frame2,text="⬛",command=lambda: play("assets/sound/2.mp3"))
+    B3 = tk.Button(frame2,text="⬛",command=root.destroy)
     B3.pack()
-    B4 = tk.Button(frame2,text="◁",command=lambda: play("assets/sound/3.mp3"))
+    B4 = tk.Button(frame2,text="◁",command=root.destroy)
     B4.pack()
-    B5 = tk.Button(frame2,text="BORRAR",command=lambda: play("del"))
-    B5.pack()
+    B5 = tk.Button(frame2,text="BORRAR",command=play("del"))
     frame1.pack(padx=1,pady=1)
     frame2.pack(padx=10,pady=10)
     root.mainloop()
@@ -304,8 +292,8 @@ def teamname(n):
 def start_game():
     generate_text("!Bienvenido al Escape Room!\n Controles: Para avanzar en la historia/diálogos, presiona espacio.\n Busca cosas sospechosas y clickealas para interactuar con ellas. \n ¡Buena Suerte!")
     print('Begin Main Game')
-    begin_city()  # from City1
-#    begin_room3()  # from Room1
+#    begin_city()  # from City1
+    begin_room3()  # from Room1
     
 
 gameDisplay = pygame.display.set_mode(size=(800,600))
