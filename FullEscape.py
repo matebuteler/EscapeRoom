@@ -20,10 +20,11 @@
 ⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 """
 from ctypes import alignment
+from threading import Thread
 import pygame, pygame_menu
 import tkinter as tk
 from tkinter import messagebox as mb
-import threading
+from threading import Thread
 import time
 from playsound import playsound
 next_room = False
@@ -138,6 +139,7 @@ cuadro1 = location(520,240,537,290)
 cuadro2 = location(539,238,554,289)
 cuadro3 = location(562,230,584,288)
 radio = location(477,290,506,310)
+luz = location(329,159,387,185)
 
 
 # Ciudad
@@ -190,14 +192,22 @@ def begin_room2():
 
 
 def begin_room3():
+    global luzt
     timeleft = 1800
+    luzt = 0
     timestopped = False
     pygame.init()
     clock = pygame.time.Clock()
     gameDisplay.blit(pygame.image.load("assets/bg/BgRoom3.png"),(0,0))
     pygame.display.update()
     ending = False
-    hasCrackedPC = False
+    def fluz():         #Función que va a correr múltiples veces en paralelo
+        global luzt
+        luzt += 1       #Agregar 1 a luzt
+        time.sleep(3.6) #Esperar 3.6s
+        if luzt == 1:
+            luzt = 0        #Borrar luzt. Si en esos 3.6s (tiempo que tarda presionar la luz 7 veces a un ritmo moderado)
+            return 0        #no hubo otros 6 threads que subieran a luzt a 7, return 0.
     while not timestopped:
         pygame.display.update()
         time.sleep(1)
@@ -210,17 +220,16 @@ def begin_room3():
         mx, my = pygame.mouse.get_pos()
         
         for event in pygame.event.get():
+            global hasCrackedPC
             if event.type == pygame.QUIT:
                 ending = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cajafuerte.x1 <= mx <= cajafuerte.x2 and cajafuerte.y1 <= my <= cajafuerte.y2:
-                    if hasCrackedPC == True:  #skipcq PYL-W0621
-                        if mb.askyesno("La caja fuerte está abierta. \n ¿Quieres ver lo que hay dentro?", "Caja fuerte"):
-                            generate_text("¡Encontraste un texto extraño! \n ", "Caja fuerte")
-                                                        
+                    if hasCrackedPC:  #skipcq PYL-W0621
+                        if mb.askyesno("Caja fuerte", "La caja fuerte está abierta. \n ¿Quieres ver lo que hay dentro?"):
+                            generate_text("¡Encontraste un texto extraño! \n 」 ➙⇒ ↑ ➳ ↑ ➳ 〘 ᑘ ᔜ 〙⧬ ⇒ ⧬ 』", "Caja fuerte")
                     else:    
                         generate_text("La caja fuerte está cerrada. \n No parece haber manera de abrirla...", "Caja Fuerte")
-                    
                 if monitor.x1 <= mx <= monitor.x2 and monitor.y1 <= my <= monitor.y2:
                     generate_popup("Computadora",
                                    "\La computadora requiere una contraseña. \n Intenta una:",
@@ -233,8 +242,11 @@ def begin_room3():
                 if afiche2.x1 <= mx <= afiche2.x2 and afiche2.y1 <= my <= afiche2.y2:
                     generate_text(" ⏭    K \n ➳    L \n𝀦    M\n𝀓    N\n➙    O\n【    P\n】    Q\n『    R\n』    S\n」    T", "Afiche extraño", "150x250")
                     
+                if cajblanca.x1 <= mx <= cajblanca.x2 and cajblanca.y1 <= my <= cajblanca.y2:
+                    generate_popup("Cajón Blanco","¡Este cajón necesita una contraseña para abrirse!\n Pista: ¿Qué cosa es que cuanto más le quitas más grande es?", "agujero", "↑    A\n↤    B\n⇒    C\n🔽    D\n⧬    E\n⧪    F\n⧭    G\n⥷    H\n⧫    I\n⦽    J", "150x250")
+                
                 if cajonsus.x1 <= mx <= cajonsus.x2 and cajonsus.y1 <= my <= cajonsus.y2:
-                    generate_popup("Cajón","¿Qué cosa es que cuanto más le quitas más grande es?", "agujero", "↑    A\n↤    B\n⇒    C\n🔽    D\n⧬    E\n⧪    F\n⧭    G\n⥷    H\n⧫    I\n⦽    J", "150x250")
+                    generate_popup("Cajón Blanco","¡Este cajón requiere una contraseña para abrirse!\nPista: ¡El arte es la única forma de comunicación que no se\n puede censurar!\n                   -_____ _______", "【↑↤➳➙  【⧫⇒↑』』➙", "〘    U\n〙    V\n𝀈    W\nᐶ    X\nᐾ    Y\nᑘ    Z\nᔓ    3\nᔜ    6\nᔘ    9\nᔭ    12")
                     
                 if rendija.x1 <= mx <= rendija.x2 and rendija.y1 <= my <= rendija.y2:
                     if mb.askyesno("Rendija","Hay algo en la rendija, pero no puedes verlo bien.\nPuedes usar tu linterna para verlo mejor.",) == True:
@@ -242,12 +254,17 @@ def begin_room3():
                         pygame.display.update()
                     gameDisplay.blit(pygame.image.load("assets/rendijailuminada.png"),(152,164))
                     pygame.display.update()
-                    
                 if radio.x1 <= mx <= radio.x2 and radio.y1 <= my <= radio.y2:
                     if mb.askyesno("Radio","La radio está apagada.\nLa perilla para seleccionar frecuencia parece estar rota.\n ¿Encender?") == True:
                         pygame.mixer.music.load("assets/sound/radio.mp3")
                         pygame.mixer.music.play(0)
-                    
+                if luz.x1 <= mx <= luz.x2 and luz.y1 <= my <= luz.y2:
+                    Thread(target=fluz).start()
+                    if luzt == 7:
+                        generate_text("Has escapado y has sobrevivido... \nHas pensado y soluciones has encontrado...\nHas perseverado y has vencido...\n¿Quién sabe que hubiera sucedido si no lo lograbas?\n El doctor Fabbri estaría orgulloso.\n ¿Qué te deparará ahora el futuro?","Una puerta se abre... ")
+                        time.sleep(5)
+                        pygame.quit()
+                        quit()
     pygame.quit()
     quit()
 
@@ -259,16 +276,18 @@ def open_computer():
     hasCrackedPC = False
     def play(track):
         global listbox
+        global hasCrackedPC
         if track == "del":
             listbox = []
             return
-        pygame.mixer.music.load(track)
-        pygame.mixer.music.play(0)
-        listbox.append(track)
-        if len(listbox) == 3 and listbox == ["assets/sound/3.mp3","assets/sound/0.mp3", "assets/sound/1.mp3", "assets/sound/2.mp3"]:
-            generate_text("¡Encontraste la contraseña! \n ¡Ahora puedes abrir la caja fuerte!")
-            hasCrackedPC = True #skipcq PYL-W0621
-            root.destroy()
+        else:
+            pygame.mixer.music.load(track)
+            pygame.mixer.music.play(0)
+            listbox.append(track)
+            if len(listbox) == 4 and listbox == ["assets/sound/3.mp3","assets/sound/0.mp3", "assets/sound/1.mp3", "assets/sound/2.mp3"]:
+                root.destroy()
+                hasCrackedPC = True #skipcq PYL-W0621
+                generate_text("¡Encontraste la contraseña! \n ¡Ahora puedes abrir la caja fuerte!")
     root = tk.Tk()
     frame1 = tk.Frame(root)
     frame2 = tk.Frame(root)
@@ -302,6 +321,7 @@ def teamname(n):
     equipo = n
 
 def start_game():
+    hasCrackedPC = False
     generate_text("!Bienvenido al Escape Room!\n Controles: Para avanzar en la historia/diálogos, presiona espacio.\n Busca cosas sospechosas y clickealas para interactuar con ellas. \n ¡Buena Suerte!")
     print('Begin Main Game')
     begin_city()  # from City1
