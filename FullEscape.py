@@ -99,7 +99,7 @@ def generate_popup(titulo, pista, correcto, unlocked, size = ("400x150")):
     # popup display
     message = tk.Label(root, text = pista)
     ans_entry = tk.Entry(root, textvariable = ans_var, font = ('calibre',10,'normal'))
-    sub_btn = tk.Button(root, text = 'Submit', command = submit)
+    sub_btn = tk.Button(root, text = 'Desbloquear', command = submit)
     root.grid_columnconfigure(0, weight=1)
     root.grid_columnconfigure(2, weight=1)
     message.grid(row=1, column=1)
@@ -220,7 +220,6 @@ def begin_room3():
         mx, my = pygame.mouse.get_pos()
         
         for event in pygame.event.get():
-            global hasCrackedPC
             if event.type == pygame.QUIT:
                 ending = True
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -246,7 +245,7 @@ def begin_room3():
                     generate_popup("Cajón Blanco","¡Este cajón necesita una contraseña para abrirse!\n Pista: ¿Qué cosa es que cuanto más le quitas más grande es?", "agujero", "↑    A\n↤    B\n⇒    C\n🔽    D\n⧬    E\n⧪    F\n⧭    G\n⥷    H\n⧫    I\n⦽    J", "150x250")
                 
                 if cajonsus.x1 <= mx <= cajonsus.x2 and cajonsus.y1 <= my <= cajonsus.y2:
-                    generate_popup("Cajón Blanco","¡Este cajón requiere una contraseña para abrirse!\nPista: ¡El arte es la única forma de comunicación que no se\n puede censurar!\n                   -_____ _______", "【↑↤➳➙  【⧫⇒↑』』➙", "〘    U\n〙    V\n𝀈    W\nᐶ    X\nᐾ    Y\nᑘ    Z\nᔓ    3\nᔜ    6\nᔘ    9\nᔭ    12")
+                    generate_popup("Cajón","¡Este cajón requiere una contraseña para abrirse!\nPista: ¡El arte es la única forma de comunicación que no se\n puede censurar!\n                   -_____ _______", "【↑↤➳➙  【⧫⇒↑』』➙", "〘    U\n〙    V\n𝀈    W\nᐶ    X\nᐾ    Y\nᑘ    Z\nᔓ    3\nᔜ    6\nᔘ    9\nᔭ    12")
                     
                 if rendija.x1 <= mx <= rendija.x2 and rendija.y1 <= my <= rendija.y2:
                     if mb.askyesno("Rendija","Hay algo en la rendija, pero no puedes verlo bien.\nPuedes usar tu linterna para verlo mejor.",) == True:
@@ -321,6 +320,7 @@ def teamname(n):
     equipo = n
 
 def start_game():
+    global hasCrackedPC
     hasCrackedPC = False
     generate_text("!Bienvenido al Escape Room!\n Controles: Para avanzar en la historia/diálogos, presiona espacio.\n Busca cosas sospechosas y clickealas para interactuar con ellas. \n ¡Buena Suerte!")
     print('Begin Main Game')
