@@ -11,10 +11,8 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "env": {
-                "VAR": "${workspaceFolder}",
-                "PATH": "${workspaceFolder}"
-            }
+            "cwd": "${fileDirname}"
+            
         }
     ]
 }
